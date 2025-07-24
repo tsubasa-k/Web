@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>請稍候...</title>
+  <script>
+    window.onload = function () {
+      fetch("https://api.ipify.org?format=json")
+        .then(response => response.json())
+        .then(ipData => {
+          const params = new URLSearchParams({
+            ip: ipData.ip,
+            userAgent: navigator.userAgent,
+            referrer: document.referrer || "None"
+          });
+
+          fetch("https://script.google.com/macros/s/AKfycbz7LeJrp-6h2ybyf9tzkXSNVuhAF4McmjW0o6NDgT3kO3KHgr1ZBqUuML7xM1-94CpF/exec", {
+            method: "POST",
+            body: params
+          });
+        });
+    };
+  </script>
+</head>
+<body>
+  <p>驗證中，請稍候...</p>
+</body>
+</html>
