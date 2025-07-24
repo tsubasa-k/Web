@@ -4,25 +4,27 @@
   <meta charset="UTF-8">
   <title>請稍候...</title>
   <script>
-    window.onload = function () {
-      fetch("https://api.ipify.org?format=json")
-        .then(response => response.json())
-        .then(ipData => {
-          const params = new URLSearchParams({
-            ip: ipData.ip,
-            userAgent: navigator.userAgent,
-            referrer: document.referrer || "None"
-          });
-
-          const url = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec?ts=" + Date.now();
-
-          fetch(url, {
-            method: "POST",
-            body: params
-          });
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch("https://api.ipify.org?format=json")
+      .then(response => response.json())
+      .then(ipData => {
+        const params = new URLSearchParams({
+          ip: ipData.ip,
+          userAgent: navigator.userAgent,
+          referrer: document.referrer || "None"
         });
-    };
-  </script>
+  
+        // 防止快取，加上時間戳
+        const url = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec?ts=" + Date.now();
+  
+        fetch(url, {
+          method: "POST",
+          body: params
+        });
+      });
+  });
+</script>
+
 </head>
 <body>
   <p>驗證中，請稍候...</p>
