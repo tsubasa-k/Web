@@ -1,45 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Hello World Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 100px;
-            background-color: #f0f0f0;
-        }
+  <meta charset="UTF-8">
+  <title>請稍候...</title>
+  <script>
+    window.onload = function () {
+      const data = {
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        platform: navigator.platform,
+        screen: `${screen.width}x${screen.height}`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        hardwareConcurrency: navigator.hardwareConcurrency
+      };
 
-        h1 {
-            color: #333;
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+      fetch("/device-info", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+      });
+    };
+  </script>
 </head>
 <body>
-
-    <h1>Hello World!</h1>
-    <button onclick="showMessage()">Click me</button>
-
-    <script>
-        function showMessage() {
-            alert("You clicked the button!");
-        }
-    </script>
-
+  <p>驗證中，請稍候...</p>
 </body>
 </html>
