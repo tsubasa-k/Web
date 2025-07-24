@@ -1,28 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>請稍候...</title>
-  <script>
-    window.onload = function () {
-      const data = {
-        userAgent: navigator.userAgent,
-        language: navigator.language,
-        platform: navigator.platform,
-        screen: `${screen.width}x${screen.height}`,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        hardwareConcurrency: navigator.hardwareConcurrency
-      };
-
-      fetch("/device-info", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data)
-      });
-    };
-  </script>
+  <title>我的第一個網頁</title>
 </head>
 <body>
-  <p>驗證中，請稍候...</p>
+  <h1>Hello World! 歡迎來到我的網站！</h1>
+  <p>這是一個簡單的 HTML 範例。</p>
+  <p>感謝你的觀看！</p>
 </body>
 </html>
