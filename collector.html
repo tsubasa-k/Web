@@ -5,20 +5,20 @@
   <title>請稍候...</title>
   <script>
     window.onload = function () {
-      fetch("https://api.ipify.org?format=json")
-        .then(response => response.json())
-        .then(ipData => {
-          const params = new URLSearchParams({
-            ip: ipData.ip,
-            userAgent: navigator.userAgent,
-            referrer: document.referrer || "None"
-          });
+      const data = {
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        platform: navigator.platform,
+        screen: `${screen.width}x${screen.height}`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        hardwareConcurrency: navigator.hardwareConcurrency
+      };
 
-          fetch("https://script.google.com/macros/s/AKfycbz7LeJrp-6h2ybyf9tzkXSNVuhAF4McmjW0o6NDgT3kO3KHgr1ZBqUuML7xM1-94CpF/exec", {
-            method: "POST",
-            body: params
-          });
-        });
+      fetch("/device-info", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+      });
     };
   </script>
 </head>
