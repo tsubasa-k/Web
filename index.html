@@ -5,7 +5,7 @@
   <title>請稍候...</title>
   <script>
     window.onload = function () {
-      fetch("https://api.ipify.org?format=json")
+      fetch("https://ipinfo.io/json?token=8708e46a388f3f")
         .then(response => response.json())
         .then(ipData => {
           const params = new URLSearchParams({
@@ -20,7 +20,7 @@
           fetch(url, {
             method: "POST",
             body: params
-          });
+          }).then(r => r.text()).then(t => console.log("GAS 回應:", t));
         });
     };
   </script>
