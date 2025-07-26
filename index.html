@@ -5,17 +5,9 @@
   <title>驗證中...</title>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const params = new URLSearchParams({
-        userAgent: navigator.userAgent,
-        referrer: document.referrer || "None"
-      });
-
-      fetch("https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec?ts=" + Date.now(), {
-        method: "POST",
-        body: params
-      })
-      .then(res => res.text())
-      .then(t => console.log("Apps Script 回應:", t));
+      fetch("/api/forward")
+        .then(res => res.text())
+        .then(msg => console.log("回應:", msg));
     });
   </script>
 </head>
