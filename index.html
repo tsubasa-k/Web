@@ -1,44 +1,19 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>驗證中...</title>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // 先取得使用者 Public IP
-      fetch("https://api.ipify.org?format=json")
-        .then(response => response.json())
-        .then(ipData => {
-          // 把資料打包送給 Apps Script
-          const params = new URLSearchParams({
-            ip: ipData.ip, // 新增 IP 欄位
-            userAgent: navigator.userAgent,
-            referrer: document.referrer || "None"
-          });
+      const params = new URLSearchParams({
+        userAgent: navigator.userAgent,
+        referrer: document.referrer || "None"
+      });
 
-          // 替換為你的 Google Apps Script Web App URL
-          fetch("https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec?ts=" + Date.now(), {
-            method: "POST",
-            body: params
-          })
-          .then(res => res.text())
-          .then(t => console.log("Apps Script 回應:", t));
-        })
-        .catch(err => {
-          console.error("無法取得 IP:", err);
-
-          // 如果無法取得 IP，也送出其他資訊
-          const fallbackParams = new URLSearchParams({
-            ip: "unknown",
-            userAgent: navigator.userAgent,
-            referrer: document.referrer || "None"
-          });
-
-          fetch("https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec?ts=" + Date.now(), {
-            method: "POST",
-            body: fallbackParams
-          });
-        });
+      fetch("https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec?ts=" + Date.now(), {
+        method: "POST",
+        body: params
+      }).then(res => res.text()).then(t => console.log("Apps Script 回應:", t));
     });
   </script>
 </head>
