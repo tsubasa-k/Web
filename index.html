@@ -14,7 +14,10 @@
             referrer: document.referrer || "None"
           });
 
-          fetch("https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec", {
+          // 加上時間戳避免被快取
+          const url = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec?ts=" + Date.now();
+
+          fetch(url, {
             method: "POST",
             body: params
           });
