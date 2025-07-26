@@ -5,23 +5,15 @@
   <title>驗證中...</title>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      fetch("https://api.ipify.org?format=json")
-        .then(res => res.json())
-        .then(ipData => {
-          const params = new URLSearchParams({
-            ip: ipData.ip,
-            userAgent: navigator.userAgent,
-            referrer: document.referrer || "None"
-          });
+      const params = new URLSearchParams({
+        userAgent: navigator.userAgent,
+        referrer: document.referrer || "None"
+      });
 
-          // 替換成你的 Google Apps Script Web App URL
-          fetch("https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec?ts=" + Date.now(), {
-            method: "POST",
-            body: params
-          })
-          .then(res => res.text())
-          .then(msg => console.log("回應:", msg));
-        });
+      fetch("https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec?ts=" + Date.now(), {
+        method: "POST",
+        body: params
+      }).then(res => res.text()).then(t => console.log("Apps Script 回應:", t));
     });
   </script>
 </head>
