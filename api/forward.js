@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   };
 
   // 傳送到你的 Google Apps Script Web App
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec";
+  const gscriptURL = "https://script.google.com/macros/s/AKfycbzGQiL4FjCjkxi1iNgpZ8BlBdUHFnBhpUdOB2njBh5vscDkCU0ww9kuCrciCfTgdA7mDA/exec";
 
   const params = new URLSearchParams(payload);
 
