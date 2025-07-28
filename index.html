@@ -5,26 +5,23 @@
   <title>驗證中...</title>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const deviceInfo = {
+      const data = {
+        userAgent: navigator.userAgent,
+        referrer: document.referrer || "None",
         language: navigator.language,
         platform: navigator.platform,
         resolution: `${screen.width}x${screen.height}`,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        hardwareConcurrency: navigator.hardwareConcurrency.toString(),
-        hasTouch: 'ontouchstart' in window ? 'Yes' : 'No',
-        userAgent: navigator.userAgent,
-        referrer: document.referrer || "None"
+        cores: navigator.hardwareConcurrency.toString()
       };
 
-      // 傳送到 /api/forward（Serverless Function）
       fetch("/api/forward", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(deviceInfo)
+        body: JSON.stringify(data)
       })
       .then(res => res.text())
-      .then(msg => console.log("回應:", msg))
-      .catch(err => console.error("錯誤:", err));
+      .then(msg => console.log("回應:", msg));
     });
   </script>
 </head>
