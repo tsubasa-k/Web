@@ -8,11 +8,12 @@ export default async function handler(req, res) {
       body = req.body;
     }
   } catch (e) {
-    console.error("解析 JSON body 錯誤:", e);
+    console.error("JSON parse error:", e);
   }
 
-  // 將 JSON 轉為 x-www-form-urlencoded 格式
-  const params = new URLSearchParams({
+  const gscriptURL = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec";
+
+  const payload = {
     ip,
     userAgent: ua,
     referrer: body.referrer || "None",
@@ -20,17 +21,15 @@ export default async function handler(req, res) {
     platform: body.platform || "unknown",
     resolution: body.resolution || "unknown",
     timezone: body.timezone || "unknown",
-    cores: body.cores || "unknown"
-  });
+    cores: body.cores?.toString() || "unknown" // 確保為 string
+  };
 
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec";
-
-  await fetch(`${gscriptURL}?ts=${Date.now()}`, {
+  await fetch(gscriptURL, {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/json"
     },
-    body: params.toString()
+    body: JSON.stringify(payload)
   });
 
   res.status(200).send("OK");
