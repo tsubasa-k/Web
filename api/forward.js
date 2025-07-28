@@ -1,9 +1,3 @@
-export const config = {
-  api: {
-    bodyParser: true,
-  },
-};
-
 export default async function handler(req, res) {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || "unknown";
   const ua = req.headers['user-agent'] || "unknown";
@@ -17,6 +11,7 @@ export default async function handler(req, res) {
     console.error("解析 JSON body 錯誤:", e);
   }
 
+  // 將 JSON 轉為 x-www-form-urlencoded 格式
   const params = new URLSearchParams({
     ip,
     userAgent: ua,
@@ -38,5 +33,5 @@ export default async function handler(req, res) {
     body: params.toString()
   });
 
-  res.status(200).send("已轉送到 Apps Script");
+  res.status(200).send("OK");
 }
