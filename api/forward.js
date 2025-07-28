@@ -6,34 +6,32 @@ export default async function handler(req, res) {
   try {
     body = req.body;
     if (typeof body === "string") {
-      body = JSON.parse(body); // for Vercel raw JSON
+      body = JSON.parse(body);
     }
   } catch (e) {
-    console.error("解析 JSON 失敗", e);
+    console.error("JSON parse error:", e);
   }
 
-  const ref = body.referrer || "None";
-  const lang = body.language || "unknown";
-  const platform = body.platform || "unknown";
-  const resolution = body.resolution || "unknown";
-  const timezone = body.timezone || "unknown";
-  const cores = body.cores || "unknown";
-
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec";
+  // 要傳給 Apps Script 的參數
   const params = new URLSearchParams({
     ip,
     userAgent: ua,
-    referrer: ref,
-    language: lang,
-    platform,
-    resolution,
-    timezone,
-    cores
+    referrer: body.referrer || "None",
+    language: body.language || "unknown",
+    platform: body.platform || "unknown",
+    resolution: body.resolution || "unknown",
+    timezone: body.timezone || "unknown",
+    cores: body.cores || "unknown"
   });
+
+  const gscriptURL = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec";
 
   await fetch(`${gscriptURL}?ts=${Date.now()}`, {
     method: "POST",
-    body: params
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded" 
+    },
+    body: params.toString()
   });
 
   res.status(200).send("OK");
