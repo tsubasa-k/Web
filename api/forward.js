@@ -1,35 +1,35 @@
 export default async function handler(req, res) {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || "unknown";
   const ua = req.headers['user-agent'] || "unknown";
-  const ref = req.headers['referer'] || "None";
 
-  // 前端傳來的資訊（使用 JSON）
-  let device = {};
+  let body = {};
   try {
-    device = req.body ?? {};
-  } catch (err) {
-    console.error("JSON 解析失敗:", err);
+    body = req.body;
+    if (typeof body === "string") {
+      body = JSON.parse(body); // for Vercel raw JSON
+    }
+  } catch (e) {
+    console.error("解析 JSON 失敗", e);
   }
 
-  // 確保支援 Vercel Serverless 自動解析 JSON（如必要可加 middleware）
-  const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+  const ref = body.referrer || "None";
+  const lang = body.language || "unknown";
+  const platform = body.platform || "unknown";
+  const resolution = body.resolution || "unknown";
+  const timezone = body.timezone || "unknown";
+  const cores = body.cores || "unknown";
 
-  const payload = {
-    ip: ip,
+  const gscriptURL = "https://script.google.com/macros/s/AKfycbzGQiL4FjCjkxi1iNgpZ8BlBdUHFnBhpUdOB2njBh5vscDkCU0ww9kuCrciCfTgdA7mDA/exec";
+  const params = new URLSearchParams({
+    ip,
     userAgent: ua,
     referrer: ref,
-    language: body.language || "unknown",
-    platform: body.platform || "unknown",
-    resolution: body.resolution || "unknown",
-    timezone: body.timezone || "unknown",
-    hardwareConcurrency: body.hardwareConcurrency || "unknown",
-    hasTouch: body.hasTouch || "unknown"
-  };
-
-  // 傳送到你的 Google Apps Script Web App
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbzGQiL4FjCjkxi1iNgpZ8BlBdUHFnBhpUdOB2njBh5vscDkCU0ww9kuCrciCfTgdA7mDA/exec";
-
-  const params = new URLSearchParams(payload);
+    language: lang,
+    platform,
+    resolution,
+    timezone,
+    cores
+  });
 
   await fetch(`${gscriptURL}?ts=${Date.now()}`, {
     method: "POST",
