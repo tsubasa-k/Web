@@ -23,8 +23,8 @@
         body: JSON.stringify(deviceInfo)
       })
       .then(res => res.text())
-      .then(msg => console.log("✅ 回應:", msg))
-      .catch(err => console.error("❌ 錯誤:", err));
+      .then(msg => console.log("回應:", msg))
+      .catch(err => console.error("錯誤:", err));
     });
   </script>
 </head>
