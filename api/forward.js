@@ -1,18 +1,22 @@
+export const config = {
+  api: {
+    bodyParser: true,
+  },
+};
+
 export default async function handler(req, res) {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || "unknown";
   const ua = req.headers['user-agent'] || "unknown";
 
   let body = {};
   try {
-    body = req.body;
-    if (typeof body === "string") {
-      body = JSON.parse(body);
+    if (req.headers['content-type'] === 'application/json') {
+      body = req.body;
     }
   } catch (e) {
-    console.error("JSON parse error:", e);
+    console.error("解析 JSON body 錯誤:", e);
   }
 
-  // 要傳給 Apps Script 的參數
   const params = new URLSearchParams({
     ip,
     userAgent: ua,
@@ -29,10 +33,10 @@ export default async function handler(req, res) {
   await fetch(`${gscriptURL}?ts=${Date.now()}`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded" 
+      "Content-Type": "application/x-www-form-urlencoded"
     },
     body: params.toString()
   });
 
-  res.status(200).send("OK");
+  res.status(200).send("已轉送到 Apps Script");
 }
