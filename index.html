@@ -4,11 +4,25 @@
   <meta charset="UTF-8">
   <title>驗證中...</title>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch("/api/forward")
-        .then(res => res.text())
-        .then(msg => console.log("回應:", msg));
-    });
+    async function collectAndSendInfo() {
+      const data = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        screen: `${screen.width}x${screen.height}`,
+        referrer: document.referrer || "None"
+      };
+
+      await fetch("/api/forward", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", collectAndSendInfo);
   </script>
 </head>
 <body>
