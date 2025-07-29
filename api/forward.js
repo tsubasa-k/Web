@@ -1,29 +1,35 @@
+export const config = {
+  api: {
+    bodyParser: false, // 禁用 Vercel 預設 JSON parsing，自己解析
+  },
+};
+
 export default async function handler(req, res) {
-  // 取得 IP、UA
-  const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || "unknown";
-  const ua = req.headers['user-agent'] || "unknown";
-
-  // 手動解析 JSON body
-  const chunks = [];
-  for await (const chunk of req) chunks.push(chunk);
-  const rawBody = Buffer.concat(chunks).toString();
-
-  let data = {};
-  try {
-    data = JSON.parse(rawBody);
-  } catch (e) {
-    console.error("JSON parse error:", e);
+  if (req.method !== 'POST') {
+    return res.status(405).send('Method Not Allowed');
   }
 
-  // 傳送到 Google Apps Script
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec";
+  // 手動解析 JSON body
+  let rawBody = '';
+  req.on('data', chunk => {
+    rawBody += chunk;
+  });
 
-  await fetch(gscriptURL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
+  req.on('end', async () => {
+    let data = {};
+    try {
+      data = JSON.parse(rawBody);
+    } catch (err) {
+      console.error("JSON parse error:", err);
+      return res.status(400).send("Invalid JSON");
+    }
+
+    const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || "unknown";
+    const ua = req.headers['user-agent'] || "unknown";
+
+    const gscriptURL = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec";
+
+    const gscriptPayload = {
       ip,
       userAgent: ua,
       referrer: data.referrer || "None",
@@ -32,8 +38,21 @@ export default async function handler(req, res) {
       resolution: data.resolution || "unknown",
       timezone: data.timezone || "unknown",
       cores: data.cores || "unknown"
-    })
-  });
+    };
 
-  res.status(200).send("OK");
+    try {
+      await fetch(gscriptURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(gscriptPayload)
+      });
+
+      return res.status(200).json({ status: "forwarded to Google Apps Script" });
+    } catch (e) {
+      console.error("Error forwarding to Apps Script:", e);
+      return res.status(500).send("Forward failed");
+    }
+  });
 }
