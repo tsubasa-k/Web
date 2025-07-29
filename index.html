@@ -5,12 +5,12 @@
   <title>驗證中...</title>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const payload = {
+      const data = {
         userAgent: navigator.userAgent,
         referrer: document.referrer || "None",
         language: navigator.language,
         platform: navigator.platform,
-        resolution: `${screen.width}x${screen.height}`,
+        resolution: `${window.screen.width}x${window.screen.height}`,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         cores: navigator.hardwareConcurrency
       };
@@ -20,8 +20,8 @@
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(payload)
-      }).then(res => res.text()).then(msg => console.log("Server 回應:", msg));
+        body: JSON.stringify(data)
+      }).then(res => res.text()).then(console.log);
     });
   </script>
 </head>
