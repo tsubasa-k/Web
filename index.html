@@ -5,23 +5,23 @@
   <title>驗證中...</title>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const data = {
+      const payload = {
         userAgent: navigator.userAgent,
         referrer: document.referrer || "None",
         language: navigator.language,
         platform: navigator.platform,
         resolution: `${screen.width}x${screen.height}`,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        cores: navigator.hardwareConcurrency.toString()
+        cores: navigator.hardwareConcurrency
       };
 
       fetch("/api/forward", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      })
-      .then(res => res.text())
-      .then(msg => console.log("回應:", msg));
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      }).then(res => res.text()).then(msg => console.log("Server 回應:", msg));
     });
   </script>
 </head>
