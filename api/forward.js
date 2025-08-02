@@ -1,27 +1,22 @@
 export default async function handler(req, res) {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || "unknown";
+  const ua = req.headers['user-agent'] || "unknown";
+  const ref = req.headers['referer'] || "None";
+  const lang = req.headers['accept-language'] || "unknown";
+  const encoding = req.headers['accept-encoding'] || "unknown";
+  const host = req.headers['host'] || "unknown";
+  const connection = req.headers['connection'] || "unknown";
 
-  const {
-    userAgent = "unknown",
-    referrer = "None",
-    resolution = "unknown",
-    platform = "unknown",
-    language = "unknown",
-    timezone = "unknown",
-    cores = "unknown"
-  } = req.body ? JSON.parse(req.body) : {};
-
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbxMbACS4gM7-k67MClyNOvpnjQWgDhENZpEZKwgzxvBdg4WegdPAldbhL5A2vzZz4_X/exec"; // 替換為你的 Apps Script URL
-
+  // Google Apps Script Web App URL
+  const gscriptURL = "https://script.google.com/macros/s/AKfycbxMbACS4gM7-k67MClyNOvpnjQWgDhENZpEZKwgzxvBdg4WegdPAldbhL5A2vzZz4_X/exec";
   const params = new URLSearchParams({
     ip,
-    userAgent,
-    referrer,
-    resolution,
-    platform,
-    language,
-    timezone,
-    cores
+    userAgent: ua,
+    referrer: ref,
+    language: lang,
+    encoding,
+    host,
+    connection
   });
 
   await fetch(`${gscriptURL}?ts=${Date.now()}`, {
