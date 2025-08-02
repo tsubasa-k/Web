@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   }
 
   // 傳送到 Google Apps Script
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbyhHljLTGgqeqspJClii6V8I-utZCBKMNqAUMoMyB_6dYCYDo3BkfrZLR8Zo-V8QRzd/exec";
+  const gscriptURL = "https://script.google.com/macros/s/AKfycbxp6U-Gr4-zvlOB5pB3R2CUNGb7azi5ZUaJ8wHEnJWueb7G8dhsRdlNW7I1a7GtMHaZ/exec";
 
   await fetch(gscriptURL, {
     method: "POST",
