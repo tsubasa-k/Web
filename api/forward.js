@@ -10,13 +10,13 @@ export default async function handler(req, res) {
   // Google Apps Script Web App URL
   const gscriptURL = "https://script.google.com/macros/s/AKfycbwwXKr79kJDKLmUZ4oIeGqGOI6dwXU7ESzKhzCI3U0PDk4iFfEEMqRduxXclKM8uDhN/exec";
   const params = new URLSearchParams({
-    ip,
+    ip: ip,
     userAgent: ua,
     referrer: ref,
     language: lang,
-    encoding,
-    host,
-    connection
+    encoding: encoding,
+    host: host,
+    connection: connection
   });
 
   await fetch(`${gscriptURL}?ts=${Date.now()}`, {
