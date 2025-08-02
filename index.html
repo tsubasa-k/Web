@@ -5,23 +5,9 @@
   <title>驗證中...</title>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const data = {
-        userAgent: navigator.userAgent,
-        referrer: document.referrer || "None",
-        language: navigator.language,
-        platform: navigator.platform,
-        resolution: `${screen.width}x${screen.height}`,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        cores: navigator.hardwareConcurrency.toString()
-      };
-
-      fetch("/api/forward", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      })
-      .then(res => res.text())
-      .then(msg => console.log("回應:", msg));
+      fetch("/api/forward")
+        .then(res => res.text())
+        .then(msg => console.log("✅ 回應:", msg));
     });
   </script>
 </head>
