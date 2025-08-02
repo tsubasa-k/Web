@@ -9,7 +9,7 @@ export default async function handler(req, res) {
       body = JSON.parse(body); // for Vercel raw JSON
     }
   } catch (e) {
-    console.error("❌ 解析 JSON 失敗", e);
+    console.error("解析 JSON 失敗", e);
   }
 
   const ref = body.referrer || "None";
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   const timezone = body.timezone || "unknown";
   const cores = body.cores || "unknown";
 
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbxp6U-Gr4-zvlOB5pB3R2CUNGb7azi5ZUaJ8wHEnJWueb7G8dhsRdlNW7I1a7GtMHaZ/exec";
+  const gscriptURL = "https://script.google.com/macros/s/AKfycbwqDMyDjYu3iDOgdNjTqV8s2wYhjVzz8NQ0nVx31WtqxzuTrxipdpWMUXMJC_x2YS6e/exec";
   const params = new URLSearchParams({
     ip,
     userAgent: ua,
