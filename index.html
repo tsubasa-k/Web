@@ -4,23 +4,24 @@
   <meta charset="UTF-8">
   <title>驗證中...</title>
   <script>
-    document.addEventListener("DOMContentLoaded", async function () {
-      const deviceInfo = {
+    document.addEventListener("DOMContentLoaded", function () {
+      const data = {
         userAgent: navigator.userAgent,
         referrer: document.referrer || "None",
-        resolution: `${screen.width}x${screen.height}`,
-        platform: navigator.platform,
         language: navigator.language,
+        platform: navigator.platform,
+        resolution: `${screen.width}x${screen.height}`,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        cores: navigator.hardwareConcurrency || "unknown"
+        cores: navigator.hardwareConcurrency.toString()
       };
 
-      await fetch("/api/forward", {
+      fetch("/api/forward", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(deviceInfo)
-      }).then(res => res.text())
-        .then(msg => console.log("回應:", msg));
+        body: JSON.stringify(data)
+      })
+      .then(res => res.text())
+      .then(msg => console.log("回應:", msg));
     });
   </script>
 </head>
