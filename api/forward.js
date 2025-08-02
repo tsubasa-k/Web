@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   const ref = req.headers['referer'] || "unknown";
 
   // 將資料轉發到 Google Apps Script Web App
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbxnpH6yU1TdICZnpG0Mi13995etUATAP4v_zghVFlLNkz7Pz8_kKkF8TRVfx3RaJLBn/exec";
+  const gscriptURL = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec";
   const params = new URLSearchParams({
     ip: ip,
     userAgent: ua,
