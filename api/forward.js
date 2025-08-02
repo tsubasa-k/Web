@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const connection = req.headers['connection'] || "unknown";
 
   // Google Apps Script Web App URL
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbwwXKr79kJDKLmUZ4oIeGqGOI6dwXU7ESzKhzCI3U0PDk4iFfEEMqRduxXclKM8uDhN/exec";
+  const gscriptURL = "https://script.google.com/macros/s/AKfycbwAd3mFQQk9lRMqlZnJm7PBVLkfFLkzlY9joNFNKingwBrw7XA4gWZKALv8Km1QOFIW/exec";
   const params = new URLSearchParams({
     ip: ip,
     userAgent: ua,
