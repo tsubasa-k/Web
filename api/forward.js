@@ -1,22 +1,26 @@
 export default async function handler(req, res) {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || "unknown";
-  const ua = req.headers['user-agent'] || "unknown";
-  const ref = req.headers['referer'] || "None";
-  const lang = req.headers['accept-language'] || "unknown";
-  const encoding = req.headers['accept-encoding'] || "unknown";
-  const host = req.headers['host'] || "unknown";
-  const connection = req.headers['connection'] || "unknown";
 
-  // Google Apps Script Web App URL
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbwAd3mFQQk9lRMqlZnJm7PBVLkfFLkzlY9joNFNKingwBrw7XA4gWZKALv8Km1QOFIW/exec";
+  const {
+    userAgent = "unknown",
+    referrer = "None",
+    resolution = "unknown",
+    platform = "unknown",
+    language = "unknown",
+    timezone = "unknown",
+    cores = "unknown"
+  } = req.body ? JSON.parse(req.body) : {};
+
+  const gscriptURL = "https://script.google.com/macros/s/AKfycbw6Zbb8WVk8AYyqoyglxEBGab4iyewNaUgx0Ul68bNv-Bw-clfch40X880Cmtg2tesY/exec"; 
   const params = new URLSearchParams({
-    ip: ip,
-    userAgent: ua,
-    referrer: ref,
-    language: lang,
-    encoding: encoding,
-    host: host,
-    connection: connection
+    ip,
+    userAgent,
+    referrer,
+    resolution,
+    platform,
+    language,
+    timezone,
+    cores
   });
 
   await fetch(`${gscriptURL}?ts=${Date.now()}`, {
