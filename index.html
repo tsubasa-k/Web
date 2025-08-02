@@ -4,9 +4,22 @@
   <meta charset="UTF-8">
   <title>驗證中...</title>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch("/api/forward")
-        .then(res => res.text())
+    document.addEventListener("DOMContentLoaded", async function () {
+      const deviceInfo = {
+        userAgent: navigator.userAgent,
+        referrer: document.referrer || "None",
+        resolution: `${screen.width}x${screen.height}`,
+        platform: navigator.platform,
+        language: navigator.language,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        cores: navigator.hardwareConcurrency || "unknown"
+      };
+
+      await fetch("/api/forward", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(deviceInfo)
+      }).then(res => res.text())
         .then(msg => console.log("回應:", msg));
     });
   </script>
