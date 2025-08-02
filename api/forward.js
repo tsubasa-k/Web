@@ -1,38 +1,19 @@
 export default async function handler(req, res) {
-  // 取得 IP、UA
-  const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || "unknown";
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || "unknown";
   const ua = req.headers['user-agent'] || "unknown";
+  const ref = req.headers['referer'] || "unknown";
 
-  // 手動解析 JSON body
-  const chunks = [];
-  for await (const chunk of req) chunks.push(chunk);
-  const rawBody = Buffer.concat(chunks).toString();
+  // 將資料轉發到 Google Apps Script Web App
+  const gscriptURL = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec";
+  const params = new URLSearchParams({
+    ip: ip,
+    userAgent: ua,
+    referrer: ref
+  });
 
-  let data = {};
-  try {
-    data = JSON.parse(rawBody);
-  } catch (e) {
-    console.error("JSON parse error:", e);
-  }
-
-  // 傳送到 Google Apps Script
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbxp6U-Gr4-zvlOB5pB3R2CUNGb7azi5ZUaJ8wHEnJWueb7G8dhsRdlNW7I1a7GtMHaZ/exec";
-
-  await fetch(gscriptURL, {
+  await fetch(`${gscriptURL}?ts=${Date.now()}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      ip,
-      userAgent: ua,
-      referrer: data.referrer || "None",
-      language: data.language || "unknown",
-      platform: data.platform || "unknown",
-      resolution: data.resolution || "unknown",
-      timezone: data.timezone || "unknown",
-      cores: data.cores || "unknown"
-    })
+    body: params
   });
 
   res.status(200).send("OK");
