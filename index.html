@@ -3,6 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>驗證中...</title>
+  <style>
+    #info-box {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+  </style>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const data = {
@@ -12,7 +21,7 @@
         platform: navigator.platform,
         resolution: `${screen.width}x${screen.height}`,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        cores: navigator.hardwareConcurrency.toString()
+        cores: navigator.hardwareConcurrency?.toString() || "unknown"
       };
 
       fetch("/api/forward", {
@@ -20,12 +29,29 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       })
-      .then(res => res.text())
-      .then(msg => console.log("回應:", msg));
+      .then(res => res.json())  // ← 期待回傳 JSON
+      .then(result => {
+        const box = document.getElementById("info-box");
+        box.innerText =
+          `已回傳並收到以下裝置資訊：\n\n` +
+          `時間：${result.timestamp}\n` +
+          `IP：${result.ip}\n` +
+          `User-Agent：${result.userAgent}\n` +
+          `Referrer：${result.referrer}\n` +
+          `Resolution：${result.resolution}\n` +
+          `Platform：${result.platform}\n` +
+          `Language：${result.language}\n` +
+          `Timezone：${result.timezone}\n` +
+          `CPU Cores：${result.cores}`;
+      })
+      .catch(err => {
+        document.getElementById("info-box").innerText = "資訊回傳失敗：" + err;
+      });
     });
   </script>
 </head>
 <body>
   <p>正在驗證裝置資訊，請稍候...</p>
+  <div id="info-box">📡 等待伺服器回應...</div>
 </body>
 </html>
