@@ -2,63 +2,20 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>登入驗證頁</title>
-  <style>
-    body { font-family: sans-serif; margin: 40px; }
-    label, input { display: block; margin-bottom: 10px; }
-    #info-box { margin-top: 20px; white-space: pre-wrap; }
-  </style>
-</head>
-<body>
-  <h2>🔐 登入頁面</h2>
-  <form id="login-form">
-    <label>帳號：<input type="text" id="username" required></label>
-    <label>密碼：<input type="password" id="password" required></label>
-    <button type="submit">登入</button>
-  </form>
-
-  <div id="info-box"></div>
-
+  <title>裝置驗證中...</title>
   <script>
-    document.getElementById("login-form").addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      if (!username || !password) return alert("請輸入帳號密碼");
-
-      // 假設密碼驗證通過，執行裝置資料收集
-      const data = {
-        username,
-        userAgent: navigator.userAgent,
-        referrer: document.referrer || "None",
-        language: navigator.language,
-        platform: navigator.platform,
-        resolution: `${screen.width}x${screen.height}`,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        cores: navigator.hardwareConcurrency?.toString() || "unknown"
-      };
-
-      const res = await fetch("/api/forward", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-
-      const result = await res.json();
-      const box = document.getElementById("info-box");
-      box.innerText =
-        `登入者：${result.username}\n` +
-        `IP：${result.ip}\n` +
-        `User-Agent：${result.userAgent}\n` +
-        `Platform：${result.platform}\n` +
-        `Resolution：${result.resolution}\n` +
-        `Language：${result.language}\n` +
-        `Timezone：${result.timezone}\n` +
-        `CPU Cores：${result.cores}\n` +
-        `時間：${result.timestamp}`;
+    document.addEventListener("DOMContentLoaded", async function () {
+      try {
+        const res = await fetch("http://localhost:12345/get_info");
+        const data = await res.json();
+        console.log("裝置資訊已送出:", data);
+      } catch (err) {
+        console.error("無法連線本機偵測程式:", err);
+      }
     });
   </script>
+</head>
+<body>
+  <p>正在驗證裝置資訊，請稍候...</p>
 </body>
 </html>
