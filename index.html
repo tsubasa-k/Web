@@ -10,7 +10,7 @@
       const info = await res.json();
   
       // 發送到你自己的 Vercel Serverless API
-      await fetch("/api/receive", {
+      await fetch("/api/forward", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(info)
