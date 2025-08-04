@@ -4,22 +4,23 @@
   <meta charset="UTF-8">
   <title>驗證中...</title>
   <script>
-    document.addEventListener("DOMContentLoaded", async function () {
-      try {
-        const res = await fetch("http://localhost:12345/get_info");
-        const info = await res.json();
-
-        await fetch("https://web-tsubasa-git-main-tsubasa-k-s-projects.vercel.app/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(info)
-        });
-
-        console.log("已上傳裝置資訊", info);
-      } catch (err) {
-        console.error("無法讀取本機資訊:", err);
-      }
-    });
+  document.addEventListener("DOMContentLoaded", async function () {
+    try {
+      const res = await fetch("http://localhost:12345/get_info");  // ← 本機 API
+      const info = await res.json();
+  
+      // 發送到你自己的 Vercel Serverless API
+      await fetch("/api/receive", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(info)
+      });
+  
+      console.log("已成功傳送裝置資訊:", info);
+    } catch (e) {
+      console.error("無法連線本機服務，請確認已啟動 Flask:", e);
+    }
+  });
   </script>
 </head>
 <body>
