@@ -1,9 +1,17 @@
 export default async function handler(req, res) {
+  if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
+
   const { mac, uuid, ipconfig } = req.body || {};
+  const log = `[${new Date().toISOString()}] MAC: ${mac} | UUID: ${uuid} | IPINFO: ${ipconfig}`;
 
-  console.log("來自本機的裝置資訊:", { mac, uuid, ipconfig });
+  console.log("Received from client:", log);
 
-  // TODO: 可寫入 Google Sheet、DB、或寄信
+  // (Optional) Forward to Google Sheet via Apps Script:
+  await fetch("https://script.google.com/macros/s/AKfycbx8msWLHxw2XY9SoiPaIG1pBiGxoyTBrCfvZEj2odJnPqcwxVS02ArIqcXxLnSNLTFn/exec", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ mac, uuid, ipconfig })
+  });
 
-  res.status(200).json({ message: "已接收" });
+  res.status(200).send("Logged");
 }
