@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     console.log("收到資料:", log);
 
     // 請將這個改成你的 Google Apps Script Web App URL (要是 /exec 結尾)
-    const gscriptURL = "https://script.google.com/macros/s/AKfycbybQVgVkMiyoYmveAoDrj8Bp1tbbzNlf-6_n_Qw6XGpVouZWXk3tPpcQfxiRUhiKDuS/exec";
+    const gscriptURL = "https://script.google.com/macros/s/AKfycbzaZGaMgYGPovikEpXnutNGAn3HGlsH-OMGCRKH5BsBFECHr_uiNyEmwxK7QvQXOc4/exec";
 
     // 傳送到 Google Apps Script
     const response = await fetch(gscriptURL, {
