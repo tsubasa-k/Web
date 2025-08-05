@@ -1,11 +1,11 @@
 // File: api/forward.js
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
-
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || "unknown";
   try {
     const { mac, uuid, ipconfig, os } = req.body || {};
 
-    const log = `[${new Date().toISOString()}] OS: ${os} | MAC: ${mac} | UUID: ${uuid} | IP: ${ipconfig}`;
+    const log = `[${new Date().toISOString()}] OS: ${os} | MAC: ${mac} | UUID: ${uuid}`;
     console.log("收到資料:", log);
 
     // 請將這個改成你的 Google Apps Script Web App URL (要是 /exec 結尾)
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       body: new URLSearchParams({
         mac,
         uuid,
-        ipconfig,
+        ip,
         os
       })
     });
