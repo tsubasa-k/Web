@@ -700,9 +700,9 @@ function doPost(e) {
 ```
 
 如果要修改成讓使用者瀏覽網頁時：
-:white_check_mark: 收集裝置資訊與 IP
-:white_check_mark: 傳送到 Server
-:white_check_mark: 將收集結果即時顯示在網頁上
+- 收集裝置資訊與 IP
+- 傳送到 Server
+- 將收集結果即時顯示在網頁上
 
 整體架構變更摘要
 要做的事是：
