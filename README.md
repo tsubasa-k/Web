@@ -1,4 +1,4 @@
-## Research 2: 實作關於寄送一封帶有特殊連結的 Email，使用者點擊後導入本地端架設的一個頁面，即刻收集 IP 與裝置資訊
+## Research : 實作關於寄送一封帶有特殊連結的 Email，使用者點擊後導入架設的一個Web頁面，即可收集 IP 與裝置資訊
 
 流程圖:
 ```
@@ -365,7 +365,8 @@ document.addEventListener("DOMContentLoaded", function () {
 解法 1（加 ?ts=Date.now()）與解法 2（改用 DOMContentLoaded），但依然遇到：「第一次開啟 Vercel 網址會成功寫入 Google Sheet，但之後就不會更新」的問題。
 
 按 F12 → Network，並觀察：
-![image](https://hackmd.io/_uploads/r12RuOMDxg.png)
+<img width="1489" height="390" alt="image" src="https://github.com/user-attachments/assets/3853141b-5957-4fc6-be7c-2eb1472a0043" />
+
 在紅色框這行，表示對 https://api.ipify.org?format=json 的 fetch 請求被阻擋了
 
 **可能原因分析**
@@ -459,12 +460,12 @@ function doPost(e) {
 
 **問題**
 修改之後，每一次存取網址後，Apps Script都能更新，但是後端自己抓不到來源 IP
-![image](https://hackmd.io/_uploads/HkIVTdGvle.png)
+<img width="712" height="90" alt="image" src="https://github.com/user-attachments/assets/db841f4f-4a47-492b-b204-17c8ed7d1afa" />
 
 每一次存取 Vercel 網址都能成功寫入 Google Sheet，但後端抓到的 IP 欄位有多筆是 unknown
 
 按 F12 → Network，並觀察：
-![image](https://hackmd.io/_uploads/HkxIAuzwel.png)
+<img width="1491" height="397" alt="image" src="https://github.com/user-attachments/assets/9f7e4e85-12ab-414f-a463-c7aeda7b9285" />
 
 紅色框這行，代表 Google Apps Script Web App 的請求經過了重導向（302 Redirect），這會導致：
 - 請求的 header（如 x-forwarded-for）在 redirect 時可能被丟失
@@ -557,7 +558,8 @@ function doPost(e) {
 ```
 **問題**
 在Vercel架設網頁出現錯誤:
-![image](https://hackmd.io/_uploads/HySzCIhvgg.png)
+<img width="1078" height="402" alt="image" src="https://github.com/user-attachments/assets/d2876616-4de9-4519-a4e6-2c3e0b2e72a1" />
+
 **解決方式**
 Add a `vercel.json` file at the root of your project, and use "rewrites" to rewrite all incoming paths to refer to your index path.
 ```
@@ -579,7 +581,7 @@ refer: https://medium.com/today-i-solved/deploy-spa-with-react-router-to-vercel-
 - 將資料送到 Apps Script
 - 寫入 Google Sheet
 
-![image](https://hackmd.io/_uploads/Skf_ztzPge.png)
+<img width="933" height="97" alt="image" src="https://github.com/user-attachments/assets/4a236575-5afc-4b8b-8189-c348fa24ecf7" />
 
 如果要增加其他的硬體資訊
 Web 登入後可取得的硬體資訊與 IP（無需使用外掛）
