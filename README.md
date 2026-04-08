@@ -488,7 +488,7 @@ export default async function handler(req, res) {
   const ref = req.headers['referer'] || "unknown";
 
   // 將資料轉發到 Google Apps Script Web App
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbyM9jZAnb1q-4lpv8xXZcJzARjWIzbtC-qr7uYxPI0EiL09hkZdmNCVUbnaST4NECh0/exec";
+  const gscriptURL = "https://script.google.com/macros/s/<your_link_paprams>/exec";
   const params = new URLSearchParams({
     ip: ip,
     userAgent: ua,
@@ -656,7 +656,7 @@ export default async function handler(req, res) {
   const timezone = body.timezone || "unknown";
   const cores = body.cores || "unknown";
 
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbw6Zbb8WVk8AYyqoyglxEBGab4iyewNaUgx0Ul68bNv-Bw-clfch40X880Cmtg2tesY/exec";
+  const gscriptURL = "https://script.google.com/macros/s/<your_link_paprams>/exec";
   const params = new URLSearchParams({
     ip,
     userAgent: ua,
@@ -804,7 +804,7 @@ export default async function handler(req, res) {
   };
 
   // 傳送到 Google Apps Script 儲存
-  const gscriptURL = "https://script.google.com/macros/s/AKfycbw6Zbb8WVk8AYyqoyglxEBGab4iyewNaUgx0Ul68bNv-Bw-clfch40X880Cmtg2tesY/exec";
+  const gscriptURL = "https://script.google.com/macros/s/<your_link_paprams>/exec";
   const params = new URLSearchParams(data);
 
   try {
