@@ -365,7 +365,8 @@ document.addEventListener("DOMContentLoaded", function () {
 解法 1（加 ?ts=Date.now()）與解法 2（改用 DOMContentLoaded），但依然遇到：「第一次開啟 Vercel 網址會成功寫入 Google Sheet，但之後就不會更新」的問題。
 
 按 F12 → Network，並觀察：
-<img width="1491" height="343" alt="image1" src="https://github.com/user-attachments/assets/7c1cdf58-de22-49f8-9e63-507347e69013" />
+<img width="1491" height="343" alt="image1" src="https://github.com/user-attachments/assets/382c9ef3-60f7-4100-b522-3abb9a809319" />
+
 
 在紅色框這行，表示對 https://api.ipify.org?format=json 的 fetch 請求被阻擋了
 
